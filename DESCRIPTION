@@ -1,0 +1,32 @@
+Package: purposeful
+Title: Purposeful Selection (Hosmer, Lemeshow)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Emile",
+           family = "Latour",
+           role = c("aut", "cre"),
+           email = "latour@ohsu.edu")
+Description: Application of the purposeful selection procedure developed by Homser and Lemeshow for selecting predictors in logistic regresssion.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Imports: 
+  broom, 
+  car,  
+  dplyr, 
+  glue, 
+  janitor, 
+  knitr, 
+  labelled, 
+  magrittr, 
+  purrr, 
+  scales, 
+  stringr, 
+  tibble, 
+  tidyr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Suggests: 
+    rmarkdown
+VignetteBuilder: knitr

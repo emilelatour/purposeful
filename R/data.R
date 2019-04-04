@@ -1,0 +1,52 @@
+#' Myopia data set.
+#'
+#' The dataset is a subset of data from the Orinda Longitudinal Study of Myopia
+#' (OLSM), a cohort study of ocular component development and risk factors for
+#' the onset of myopia in children. Data collection began in the 1989–1990
+#' school year and continued annually through the 2000–2001 school year. All
+#' data about the parts that make up the eye (the ocular components) were
+#' collected during an examination during the school day. Data on family history
+#' and visual activities were collected yearly in a survey completed by a parent
+#' or guardian. The dataset used in this text is from 618 of the subjects who
+#' had at least five years of follow-up and were not myopic when they entered
+#' the study. All data are from their initial exam and the dataset includes 17
+#' variables. In addition to the ocular data there is information on age at
+#' entry, year of entry, family history of myopia and hours of various visual
+#' activities. The ocular data come from a subject’s right eye.
+#'
+#' \itemize{
+#'   \item `myopic` is defined as \eqn{spheq \le -0.75 D}.
+#'   \item `spheq`: A measure of the eye’s effective focusing power. Eyes that are "normal" (don't require glasses or contact lenses) have spherical equivalents between -0.25 diopters (D) and +1.00 D. The more negative the spherical equivalent, the more myopic the subject.
+#'   \item `al`: The length of eye from front to back.
+#'   \item `acd`: The length from front to back of the aqueous-containing space of the eye between the cornea and the iris.
+#'   \item `lt`: The length from front to back of the crystalline lens.
+#'   \item `vcd`: The length from front to back of the aqueous-containing space of the eye in front of the retina.
+#'   \item `diopterhr`: The composite is defined as \eqn{diopterhr = 3 * (readhr + studyhr) + 2 * comphr + tvhr}.
+#'   \item Besides the response `myopic`, there are three categorical variables `gender`, `mommy` and `dadmy`.
+#' }
+#'
+#' @format A data frame with 618 observations and 18 variables:
+#' \describe{
+#'   \item{id}{Study ID}
+#'   \item{studyyear}{Year subject entered the study}
+#'   \item{myopic}{Myopia within the first five years of follow up (No/Yes)}
+#'   \item{age}{Age at first visit (years)}
+#'   \item{gender}{Gender (Male/Female)}
+#'   \item{spheq}{Spherical Equivalent Refraction (diopter)}
+#'   \item{al}{Axial Length (mm)}
+#'   \item{acd}{Anterior Chamber Depth (mm)}
+#'   \item{lt}{Lens Thickness (mm)}
+#'   \item{vcd}{Vitreous Chamber Depth (mm)}
+#'   \item{sporthr}{Time spent engaging in sports/outdoor activities (hours per week)}
+#'   \item{readhr}{Time spent reading for pleasure (hours per week)}
+#'   \item{comphr}{Time spent playing video/computer games or working on the computer (hours per week)}
+#'   \item{studyhr}{Time spent reading or studying for school assignments (hours per week)}
+#'   \item{tvhr}{Time spent watching television (hours per week)}
+#'   \item{diopterhr}{Composite of near-work activities (hours per week)}
+#'   \item{mommy}{Was the subject’s mother myopic? (No/Yes)}
+#'   \item{dadmy}{Was the subject’s father myopic? (No/Yes)}
+#' }
+#'
+#' @references Hosmer, D.W., Lemeshow, S. and Sturdivant, R.X. (2013) Applied Logistic Regression: Third Edition, and is copyrighted by John Wiley | Sons Inc.
+#' @source \url{https://learn.canvas.net/courses/1179/files/461762/download?download_frd=1}
+"myopia"

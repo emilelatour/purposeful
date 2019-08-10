@@ -123,7 +123,7 @@ purposeful_step_2 <- function(data,
   }
 
   rhs0 <- paste(vars0, collapse = " + ")
-  outcome <- lhs
+  # outcome <- lhs
 
   ## order for variables ----------------
 
@@ -166,6 +166,8 @@ purposeful_step_2 <- function(data,
   rhs1 <- paste(pred1, collapse = " + ")
 
   form1 <- glue::glue("{lhs} ~ {rhs1}")
+
+  names(mod0$model)[1] <- outcome
 
   # Fit reduced model
   mod1 <- glm(as.formula(form1),

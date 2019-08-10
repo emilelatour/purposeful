@@ -16,9 +16,9 @@
 #'   logistic regression.
 #' @param predictors Character vector. Independent variables
 #'   (predictors/covariates) for univariable and/or multivariable modelling.
-#' @param ref_level haracter string. The factor level of outcome variable that
+#' @param ref_level Character string. The factor level of outcome variable that
 #'   corresponds to the true condition (1). If not provided then default is
-#'   `NULL` and the model fit will determine the referenc level.
+#'   `NULL` and the model fit will determine the reference level.
 #' @param cutoff_value Numeric between 0 and 1. Include any covariate with
 #'   p-value less than this value. Suggested default is 0.25.
 #' @param format Display format in case I need to escape some characters. A

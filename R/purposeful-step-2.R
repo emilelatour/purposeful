@@ -24,9 +24,9 @@
 #' @param keep_in_mod Character vector. Variables with strong clinical reasons
 #'   to stay in the model. These will appear in both the full and reduced model
 #'   regardless of statistical significance.
-#' @param ref_level haracter string. The factor level of outcome variable that
+#' @param ref_level Character string. The factor level of outcome variable that
 #'   corresponds to the true condition (1). If not provided then default is
-#'   `NULL` and the model fit will determine the referenc level.
+#'   `NULL` and the model fit will determine the reference level.
 #' @param format Display format in case I need to escape some characters. A
 #'   place holder for now in case I need it in the future. Default is "html".
 #' @param conf_level The confidence level to use for the confidence interval.

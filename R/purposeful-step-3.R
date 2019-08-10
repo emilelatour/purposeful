@@ -21,7 +21,7 @@
 #'   (predictors/covariates) for univariable and/or multivariable modelling.
 #' @param ref_level Character string. The factor level of outcome variable that
 #'   corresponds to the true condition (1). If not provided then default is
-#'   `NULL` and the model fit will determine the referenc level.
+#'   `NULL` and the model fit will determine the reference level.
 #' @param potential_confounders Character vector. Those variables removed in
 #'   steps #1 and #2.
 #' @param ... Additional arguments.

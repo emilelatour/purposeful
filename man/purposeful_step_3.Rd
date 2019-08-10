@@ -15,7 +15,7 @@ logistic regression.}
 
 \item{ref_level}{Character string. The factor level of outcome variable that
 corresponds to the true condition (1). If not provided then default is
-\code{NULL} and the model fit will determine the referenc level.}
+\code{NULL} and the model fit will determine the reference level.}
 
 \item{predictors}{Character vector. Independent variables
 (predictors/covariates) for univariable and/or multivariable modelling.}

@@ -17,9 +17,9 @@ logistic regression.}
 \item{predictors}{Character vector. Independent variables
 (predictors/covariates) for univariable and/or multivariable modelling.}
 
-\item{ref_level}{haracter string. The factor level of outcome variable that
+\item{ref_level}{Character string. The factor level of outcome variable that
 corresponds to the true condition (1). If not provided then default is
-\code{NULL} and the model fit will determine the referenc level.}
+\code{NULL} and the model fit will determine the reference level.}
 
 \item{cutoff_value}{Numeric between 0 and 1. Include any covariate with
 p-value less than this value. Suggested default is 0.25.}

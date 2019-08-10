@@ -21,9 +21,9 @@ logistic regression.}
 to stay in the model. These will appear in both the full and reduced model
 regardless of statistical significance.}
 
-\item{ref_level}{haracter string. The factor level of outcome variable that
+\item{ref_level}{Character string. The factor level of outcome variable that
 corresponds to the true condition (1). If not provided then default is
-\code{NULL} and the model fit will determine the referenc level.}
+\code{NULL} and the model fit will determine the reference level.}
 
 \item{format}{Display format in case I need to escape some characters. A
 place holder for now in case I need it in the future. Default is "html".}

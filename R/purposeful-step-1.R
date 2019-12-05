@@ -151,7 +151,7 @@ purposeful_step_1 <- function(data,
                                                  format = format,
                                                  exponentiate = exponentiate))) %>%
     dplyr::select(res_univ) %>%
-    tidyr::unnest() %>%
+    tidyr::unnest(cols = res_univ) %>%
     mutate(below_cutoff = dplyr::if_else(p_value_lrt < cutoff_value,
                                          # paste0("Less than", cutoff_value),
                                          glue::glue("Less than {cutoff_value}"),

@@ -3,7 +3,6 @@
 \docType{package}
 \name{purposeful}
 \alias{purposeful}
-\alias{purposeful-package}
 \title{purposeful: Purposeful selection in logistic regression}
 \description{
 Application of the purposeful selection procedure developed by Homser and

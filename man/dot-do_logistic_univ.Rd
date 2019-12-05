@@ -4,8 +4,15 @@
 \alias{.do_logistic_univ}
 \title{Do univariable logistic regression and extract results in nice format.}
 \usage{
-.do_logistic_univ(data, formula, format = "html", conf_level = 0.95,
-  exponentiate = TRUE, include_last_row = TRUE, ...)
+.do_logistic_univ(
+  data,
+  formula,
+  format = "html",
+  conf_level = 0.95,
+  exponentiate = TRUE,
+  include_last_row = TRUE,
+  ...
+)
 }
 \arguments{
 \item{data}{a data frame or tibble}

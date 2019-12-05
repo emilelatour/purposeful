@@ -4,8 +4,14 @@
 \alias{purposeful_step_3}
 \title{Purposeful selection step #3}
 \usage{
-purposeful_step_3(data, outcome, ref_level = NULL, predictors,
-  potential_confounders = NULL, ...)
+purposeful_step_3(
+  data,
+  outcome,
+  ref_level = NULL,
+  predictors,
+  potential_confounders = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A tibble or data frame with the full data set.}
@@ -31,7 +37,7 @@ A tibble
 \description{
 Assess whether variables removed in steps #1 and #2 are potential
 confounders. Add them back to the model if they are. Recommendation is that
-if the changes in beta coefficients (log odds) exceed 20%, then the excluded
+if the changes in beta coefficients (log odds) exceed 20\%, then the excluded
 variable could be a confounder and should be included in the reduced model
 due to its effect on the other estimates.
 }

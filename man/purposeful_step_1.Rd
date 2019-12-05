@@ -4,9 +4,18 @@
 \alias{purposeful_step_1}
 \title{Purposeful selection step #1}
 \usage{
-purposeful_step_1(data, outcome, predictors, ref_level = NULL,
-  cutoff_value = 0.25, conf_level = 0.95, format = FALSE,
-  exponentiate = TRUE, digits = 1, ...)
+purposeful_step_1(
+  data,
+  outcome,
+  predictors,
+  ref_level = NULL,
+  cutoff_value = 0.25,
+  conf_level = 0.95,
+  format = FALSE,
+  exponentiate = TRUE,
+  digits = 1,
+  ...
+)
 }
 \arguments{
 \item{data}{A tibble or data frame with the full data set.}

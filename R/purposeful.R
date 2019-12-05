@@ -27,6 +27,7 @@ if (getRversion() >= "2.15.1") {
       "estimate_ci",
       "form1",
       "log_odds",
+      "log_odds0",
       "log_odds1",
       "lower_ci",
       "p_value",

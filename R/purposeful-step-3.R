@@ -109,7 +109,7 @@ purposeful_step_3 <- function(data,
   vars_order <- potential_confounders
 
 
-  tidyr::crossing(form0,
+  res <- tidyr::crossing(form0,
                   potential_confounders) %>%
     mutate(potential_confounders = factor(potential_confounders,
                                           levels = vars_order)) %>%
@@ -123,20 +123,52 @@ purposeful_step_3 <- function(data,
            res_1 = purrr::map(.x = form1,
                               .f = ~ .do_lr_for_confounding(data = data,
                                                             form = .x,
-                                                            keep = predictors))) %>%
-    tidyr::unnest() %>%
-    # mutate(pct_change = (log_odds1 - log_odds) / log_odds)
-    mutate(pct_change = (log_odds1 - log_odds) / log_odds,
+                                                            keep = predictors)))
+
+  res_0 <- res %>%
+    tidyr::unnest(cols = c(res_0)) %>%
+    dplyr::select(potential_confounders,
+                  term,
+                  log_odds0 = log_odds)
+
+  res_1 <- res %>%
+    tidyr::unnest(cols = c(res_1)) %>%
+    dplyr::select(potential_confounders,
+                  term,
+                  log_odds1 = log_odds)
+
+  res_0 %>%
+    dplyr::left_join(.,
+                     res_1,
+                     by = c("potential_confounders", "term")) %>%
+    mutate(pct_change = (log_odds1 - log_odds0) / log_odds0,
            assessment = dplyr::if_else(abs(pct_change) > 0.20,
                                        "Potential",
                                        ""),
            pct_change = scales::percent(pct_change)) %>%
     dplyr::select(potential_confounders,
                   term,
-                  log_odds0 = log_odds,
+                  log_odds0,
                   log_odds1,
                   pct_change,
                   assessment)
+
+  # %>%
+  #   tidyr::unnest(cols = c(res_0, res_1),
+  #                 names_repair = "universal") %>%
+    # # mutate(pct_change = (log_odds1 - log_odds) / log_odds)
+    # mutate(pct_change = (log_odds1 - log_odds) / log_odds,
+    #        assessment = dplyr::if_else(abs(pct_change) > 0.20,
+    #                                    "Potential",
+    #                                    ""),
+    #        pct_change = scales::percent(pct_change)) %>%
+    # dplyr::select(potential_confounders,
+    #               term,
+    #               log_odds0 = log_odds,
+    #               log_odds1,
+    #               pct_change,
+    #               assessment) %>%
+    # {.}
 
 }
 

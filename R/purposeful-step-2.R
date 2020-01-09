@@ -165,6 +165,11 @@ purposeful_step_2 <- function(data,
 
   rhs1 <- paste(pred1, collapse = " + ")
 
+  # If no variables are < 0.05
+  if (length(pred1) == 0) {
+    rhs1 <- 1
+  }
+
   form1 <- glue::glue("{lhs} ~ {rhs1}")
 
   names(mod0$model)[1] <- outcome
@@ -180,9 +185,13 @@ purposeful_step_2 <- function(data,
     janitor::clean_names()
 
   # LRT results
-  lrt1 <- car::Anova(mod1) %>%
-    broom::tidy() %>%
-    janitor::clean_names()
+  lrt1 <- if (length(pred1) == 0) {
+    "The model contains only an intercept"
+  } else {
+    car::Anova(mod1) %>%
+      broom::tidy() %>%
+      janitor::clean_names()
+  }
 
 
   ## Likelihood ratio test ----------------

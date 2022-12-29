@@ -2,7 +2,7 @@
 #' Purposeful selection step #1
 #'
 #' @description
-#' Univariable logistic regression for variables of intererst. A simple logistic
+#' Univariable logistic regression for variables of interest. A simple logistic
 #' regression is fir for each variable. Significance is judged at a higher level
 #' for inclusion (suggested 0.25).
 #'

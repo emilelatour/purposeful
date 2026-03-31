@@ -1,0 +1,96 @@
+
+#' @title
+#' Purposeful selection for ordinary linear models
+#'
+#' @description
+#' Applies the purposeful selection procedure of Hosmer and Lemeshow to an
+#' ordinary linear model fitted via \code{\link[stats]{lm}}.  The three phases
+#' (univariable screening, backward elimination with confounding check, final
+#' model) are identical to \code{\link{purposeful_glm}}.
+#'
+#' For linear models, variable-level testing uses an F-test via
+#' \code{drop1(..., test = "F")} rather than the likelihood-ratio chi-square
+#' test used for GLM and Cox models.  Coefficients are returned on their
+#' original (unexponentiated) scale.
+#'
+#' @references
+#' Hosmer DW, Lemeshow S (2000) \emph{Applied Logistic Regression}.
+#' John Wiley & Sons, Inc.
+#'
+#' @param data A data frame or tibble containing all variables.
+#' @param outcome Character string.  The name of the continuous outcome
+#'   variable.
+#' @param candidate_vars Character vector.  Variables to consider as
+#'   predictors.
+#' @param keep_in_mod Character vector or \code{NULL}.  Variables to retain
+#'   regardless of statistical significance.  Default is \code{NULL}.
+#' @param p_screen Numeric. Univariable screening threshold.  Default
+#'   \code{0.25}.
+#' @param p_remove Numeric. Elimination threshold.  Default \code{0.05}.
+#' @param confound_pct Numeric. Maximum acceptable proportional change in any
+#'   coefficient before a variable is retained as a confounder.  Default
+#'   \code{0.20}.
+#' @param verbose Logical.  Print a step-by-step log.  Default \code{TRUE}.
+#'
+#' @return A named list with the same structure as \code{\link{purposeful_glm}}:
+#' \describe{
+#'   \item{\code{uni_screen}}{Univariable screening results.}
+#'   \item{\code{screened_vars}}{Variables passing screen.}
+#'   \item{\code{history}}{Step-by-step elimination log.}
+#'   \item{\code{final_vars}}{Variables in the final model.}
+#'   \item{\code{final_fit}}{Fitted \code{lm} object.}
+#'   \item{\code{final_term_tests}}{Variable-level drop1() F-test p-values.}
+#'   \item{\code{final_tidy}}{Tidied coefficients (original scale, with CI).}
+#' }
+#'
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#'
+#' # Simulated data -----------------------------------------------------------
+#' set.seed(42)
+#' n   <- 500
+#' age <- round(rnorm(n, 50, 10))
+#' bmi <- round(rnorm(n, 27,  4), 1)
+#' sbp <- round(rnorm(n, 130, 20))
+#' sex <- factor(rbinom(n, 1, 0.5), labels = c("male", "female"))
+#' # Outcome: systolic BP driven by age and sex
+#' hba1c <- 0.05 * age + 0.1 * (sex == "female") + rnorm(n, 0, 1)
+#' dat   <- tibble::tibble(hba1c, age, bmi, sbp, sex)
+#'
+#' res <- purposeful_lm(
+#'   data           = dat,
+#'   outcome        = "hba1c",
+#'   candidate_vars = c("age", "bmi", "sbp", "sex"),
+#'   p_screen       = 0.25,
+#'   p_remove       = 0.05,
+#'   confound_pct   = 0.20,
+#'   verbose        = TRUE
+#' )
+#'
+#' res$final_vars
+#' res$final_tidy
+
+purposeful_lm <- function(data,
+                          outcome,
+                          candidate_vars,
+                          keep_in_mod  = NULL,
+                          p_screen     = 0.25,
+                          p_remove     = 0.05,
+                          confound_pct = 0.20,
+                          verbose      = TRUE) {
+
+  .purposeful_select_engine(
+    data           = data,
+    outcome        = outcome,
+    candidate_vars = candidate_vars,
+    keep_in_mod    = keep_in_mod,
+    model          = "lm",
+    family         = stats::gaussian(),  # placeholder; ignored by lm
+    p_screen       = p_screen,
+    p_remove       = p_remove,
+    confound_pct   = confound_pct,
+    verbose        = verbose
+  )
+}

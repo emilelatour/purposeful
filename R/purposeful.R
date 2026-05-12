@@ -6,49 +6,28 @@
 #' Cox proportional hazards regression (\code{\link{purposeful_cox}}), and
 #' ordinary linear regression (\code{\link{purposeful_lm}}).
 #'
-#' The older step-by-step functions (\code{purposeful_step_1},
-#' \code{purposeful_step_2}, \code{purposeful_step_3}) are deprecated.
-#' Please use \code{\link{purposeful_glm}} instead.
-#'
 #' @examples
 #' # See ?purposeful_glm, ?purposeful_cox, ?purposeful_lm for full examples.
 #'
 "_PACKAGE"
 
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
+## quiets concerns of R CMD check re: bare column names in dplyr pipelines
+## and the `.` placeholder used by magrittr
 ## From Jenny Bryan's googlesheets package / infer package
 ## https://github.com/tidymodels/infer/blob/master/R/infer.R
 if (getRversion() >= "2.15.1") {
   utils::globalVariables(
     c(".",
-      ## --- existing variables (purposeful_step_1/2/3) ---
-      "assessment",
-      "below_cutoff",
-      "conf_high",
-      "conf_low",
+      ## ---- column names referenced bare inside dplyr verbs --------------
       "covariate",
       "estimate",
-      "estimate_ci",
-      "form1",
-      "formula_str",   # renamed from "formula" to avoid stats::formula clash
-      "log_odds",
-      "log_odds0",
-      "log_odds1",
-      "lower_ci",
+      "std.error",
+      "term",
       "p_value",
-      "p_value_lrt",
-      "p_value_wald",
       "pct_change",
       "abs_change",
       "stabilized_change",
-      "pr_chi",
-      "ref",
-      "res_univ",
-      "std.error",
-      "term",
-      "upper_ci",
-      "vars",
-      ## --- new variables (purposeful_glm/cox/lm engine) ---
+      ## ---- new variables created in history rows + engine internals -----
       "action",
       "beta_new",
       "beta_old",
@@ -58,6 +37,7 @@ if (getRversion() >= "2.15.1") {
       "n_vars",
       "removed_var",
       "se_old",
+      "vars",
       "worst_p",
       "worst_var"
     )

@@ -12,11 +12,6 @@ provides functions for logistic regression (\code{\link{purposeful_glm}}),
 Cox proportional hazards regression (\code{\link{purposeful_cox}}), and
 ordinary linear regression (\code{\link{purposeful_lm}}).
 }
-\details{
-The older step-by-step functions (\code{purposeful_step_1},
-\code{purposeful_step_2}, \code{purposeful_step_3}) are deprecated.
-Please use \code{\link{purposeful_glm}} instead.
-}
 \examples{
 # See ?purposeful_glm, ?purposeful_cox, ?purposeful_lm for full examples.
 

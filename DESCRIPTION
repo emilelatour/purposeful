@@ -1,6 +1,6 @@
 Package: purposeful
 Title: Purposeful Selection (Hosmer, Lemeshow)
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Emile",
            family = "Latour",
@@ -16,18 +16,11 @@ LazyData: true
 ByteCompile: true
 Imports: 
   broom, 
-  car,  
   dplyr, 
-  glue, 
-  janitor, 
-  labelled, 
   magrittr, 
   purrr, 
   rlang, 
-  scales, 
-  stringr, 
-  tibble, 
-  tidyr
+  tibble
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr, 

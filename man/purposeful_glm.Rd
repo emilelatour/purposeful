@@ -12,7 +12,11 @@ purposeful_glm(
   family = stats::binomial(),
   p_screen = 0.25,
   p_remove = 0.05,
-  confound_pct = 0.2,
+  confound_method = c("pct_change", "abs_change", "stabilized"),
+  confound_threshold = NULL,
+  target_var = NULL,
+  small_coef_warn = TRUE,
+  confound_pct = NULL,
   verbose = TRUE
 )
 }
@@ -43,10 +47,46 @@ p-value below this threshold pass screening.  Hosmer and Lemeshow suggest
 drop1() p-value at or above this threshold are candidates for removal.
 Hosmer and Lemeshow suggest 0.05.  Default is \code{0.05}.}
 
-\item{confound_pct}{Numeric between 0 and 1.  If removing a candidate
-variable shifts any remaining log-scale coefficient by more than this
-proportion, the candidate is retained as a confounder.  Default is
-\code{0.20} (20 percent).}
+\item{confound_method}{Character.  Which metric to use when assessing
+whether removing a candidate variable would change coefficients enough to
+call it a confounder.  One of:
+\describe{
+\item{\code{"pct_change"}}{Textbook Hosmer-Lemeshow: \eqn{|\beta_{new} -
+    \beta_{old}| / |\beta_{old}|}.  Misbehaves when any coefficient is
+small in absolute terms; tiny shifts amplify into large percentages
+and over-retain confounders.  This is the default for backward
+compatibility but a warning is emitted when small coefficients are
+detected.}
+\item{\code{"abs_change"}}{Absolute change on the model's natural (log)
+scale: \eqn{|\beta_{new} - \beta_{old}|}.  A 0.10 threshold
+corresponds to roughly a 1.10-fold change in the OR/HR.}
+\item{\code{"stabilized"}}{SE-scaled change: \eqn{|\beta_{new} -
+    \beta_{old}| / SE(\beta_{old})}.  Robust to small
+coefficients by construction; a noisy coefficient needs more absolute
+movement to look like one SE of change.}
+}
+Default is \code{"pct_change"}.}
+
+\item{confound_threshold}{Numeric or \code{NULL}.  Threshold above which
+\code{confound_method}'s metric triggers confounder retention.  If
+\code{NULL} (the default), a method-aware default is used: \code{0.20}
+for \code{"pct_change"}, \code{0.10} for \code{"abs_change"}, \code{1.00}
+for \code{"stabilized"}.}
+
+\item{target_var}{Character or \code{NULL}.  When supplied, the confounding
+check is computed only on coefficients of this variable, instead of all
+remaining coefficients.  Use this when you have a single exposure of
+scientific interest and you only care whether adjusting changes that
+variable's coefficient.  Combine with any \code{confound_method}.
+Default is \code{NULL}.}
+
+\item{small_coef_warn}{Logical.  When \code{confound_method = "pct_change"},
+emit a one-time warning at the start of Phase 2 if any coefficient in
+the initial multivariable model has \eqn{|\beta| < 2 \cdot SE}
+(a regime where pct_change is unreliable).  Default \code{TRUE}.}
+
+\item{confound_pct}{(deprecated) Use \code{confound_threshold} instead.
+If supplied, its value is forwarded to \code{confound_threshold}.}
 
 \item{verbose}{Logical.  Print a step-by-step log of the selection
 procedure.  Default is \code{TRUE}.}
@@ -61,7 +101,9 @@ univariable screening (including any \code{keep_in_mod} variables).}
 \item{\code{history}}{Tibble describing every step of the backward
 elimination, including the action taken (\code{"remove"},
 \code{"retain_confounder"}, or a \code{"stop_*"} reason), the p-value
-of the worst variable at that step, and the max coefficient change.}
+of the worst variable at that step, the metric used
+(\code{confound_metric}), and the value of that metric at the worst-
+aggregating coefficient (\code{max_change}).}
 \item{\code{final_vars}}{Character vector of variables in the final model.}
 \item{\code{final_fit}}{The fitted \code{glm} object.}
 \item{\code{final_term_tests}}{Tibble of variable-level drop1() p-values
@@ -83,11 +125,11 @@ Variables in \code{keep_in_mod} are always carried forward.
 Starting from all screened variables, the variable with the largest
 drop1() p-value is identified at each step.  If that p-value is
 \eqn{\ge} \code{p_remove}, removal is attempted.  Before the
-variable is actually dropped, the change in all remaining
-log-scale coefficients is assessed.  If any coefficient shifts by
-more than \code{confound_pct}, the variable is retained as a
-confounder and protected from future removal; the algorithm then
-continues evaluating the next candidate for removal.
+variable is actually dropped, the change in remaining coefficients
+is assessed using \code{confound_method}; if the change exceeds
+\code{confound_threshold}, the variable is retained as a confounder
+and protected from future removal, and the algorithm continues
+evaluating the next candidate for removal.
 \item \strong{Final model assembly.}  The surviving model is fitted and
 tidied.
 }
@@ -121,7 +163,6 @@ res <- purposeful_glm(
   family         = binomial(),
   p_screen       = 0.25,
   p_remove       = 0.05,
-  confound_pct   = 0.20,
   verbose        = TRUE
 )
 

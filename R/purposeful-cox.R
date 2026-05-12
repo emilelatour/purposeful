@@ -28,9 +28,20 @@
 #' @param p_screen Numeric. Univariable screening threshold.  Default
 #'   \code{0.25}.
 #' @param p_remove Numeric. Elimination threshold.  Default \code{0.05}.
-#' @param confound_pct Numeric. Maximum acceptable proportional change in any
-#'   log-hazard coefficient before a variable is retained as a confounder.
-#'   Default \code{0.20}.
+#' @param confound_method Character.  Which metric to use when assessing
+#'   coefficient change during the confounding check.  See
+#'   \code{\link{purposeful_glm}} for details.  Default \code{"pct_change"}.
+#' @param confound_threshold Numeric or \code{NULL}.  Threshold for the
+#'   chosen \code{confound_method}.  If \code{NULL}, a method-aware default
+#'   is used (0.20 for pct_change, 0.10 for abs_change, 1.00 for
+#'   stabilized).
+#' @param target_var Character or \code{NULL}.  When supplied, the
+#'   confounding check is computed only on this variable's coefficients,
+#'   not all remaining coefficients.  Useful when you have a single exposure
+#'   of interest.  Default \code{NULL}.
+#' @param small_coef_warn Logical.  Warn when \code{"pct_change"} is used
+#'   with small initial coefficients.  Default \code{TRUE}.
+#' @param confound_pct (deprecated) Use \code{confound_threshold}.
 #' @param verbose Logical.  Print a step-by-step log.  Default \code{TRUE}.
 #'
 #' @return A named list with the same structure as \code{\link{purposeful_glm}}:
@@ -60,7 +71,6 @@
 #'     candidate_vars = c("age", "sex", "ph.ecog", "wt.loss"),
 #'     p_screen       = 0.25,
 #'     p_remove       = 0.05,
-#'     confound_pct   = 0.20,
 #'     verbose        = TRUE
 #'   )
 #'
@@ -71,26 +81,38 @@
 purposeful_cox <- function(data,
                            outcome,
                            candidate_vars,
-                           keep_in_mod  = NULL,
-                           p_screen     = 0.25,
-                           p_remove     = 0.05,
-                           confound_pct = 0.20,
-                           verbose      = TRUE) {
+                           keep_in_mod        = NULL,
+                           p_screen           = 0.25,
+                           p_remove           = 0.05,
+                           confound_method    = c("pct_change",
+                                                  "abs_change",
+                                                  "stabilized"),
+                           confound_threshold = NULL,
+                           target_var         = NULL,
+                           small_coef_warn    = TRUE,
+                           confound_pct       = NULL,
+                           verbose            = TRUE) {
+
+  confound_method <- match.arg(confound_method)
 
   # Note: the `family` argument is intentionally absent here. Cox models do
   # not use a family; passing one would be misleading.  The engine accepts a
   # family argument internally but ignores it when model = "cox".
 
   .purposeful_select_engine(
-    data           = data,
-    outcome        = outcome,
-    candidate_vars = candidate_vars,
-    keep_in_mod    = keep_in_mod,
-    model          = "cox",
-    family         = stats::binomial(),  # placeholder; ignored by coxph
-    p_screen       = p_screen,
-    p_remove       = p_remove,
-    confound_pct   = confound_pct,
-    verbose        = verbose
+    data               = data,
+    outcome            = outcome,
+    candidate_vars     = candidate_vars,
+    keep_in_mod        = keep_in_mod,
+    model              = "cox",
+    family             = stats::binomial(),  # placeholder; ignored by coxph
+    p_screen           = p_screen,
+    p_remove           = p_remove,
+    confound_method    = confound_method,
+    confound_threshold = confound_threshold,
+    target_var         = target_var,
+    small_coef_warn    = small_coef_warn,
+    confound_pct       = confound_pct,
+    verbose            = verbose
   )
 }

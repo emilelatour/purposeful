@@ -24,4 +24,9 @@ Please use \code{\link{purposeful_glm}} instead.
 \author{
 \strong{Maintainer}: Emile Latour \email{latour@ohsu.edu}
 
+Authors:
+\itemize{
+  \item Emile Latour \email{latour@ohsu.edu}
+}
+
 }
